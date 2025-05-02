@@ -26,8 +26,8 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname,'..', 'public')));
 
 //api requests
-app.use(planetsRouter); 
-app.use(launchRouter);
+app.use('/planets',planetsRouter); 
+app.use('/launch',launchRouter);
 
 app.get('/{*splat}', function(req, res){
     console.log(req.url);
