@@ -21,6 +21,13 @@ describe('POST /launch', () => {
         launchDate: "January 17, 2030"     
     }
 
+    const launchDataInvalidDate = {
+        mission: "ZTM15S",
+        rocket: "ZTM EXPERIMENTAL IS1",
+        target: "Kepler-186 f",
+        launchDate: "hello"     
+    }
+
     const launchDataWithoutDate = {
         mission: "ZTM15S",
         rocket: "ZTM EXPERIMENTAL IS1",
@@ -41,8 +48,35 @@ describe('POST /launch', () => {
     const responseDate = new Date(response.body.launchDate).valueOf();
 
     expect(requestDate).toBe(responseDate);
-    expect(response.body).toMatchObject(launchDataWithoutDate);
+    expect(response.body).toMatchObject(launchDataWithoutDate)
     })
-    test('It should catch missing requirements', () => {})
-    test('It should catch invalid dates', () => {});
+    test('It should catch missing requirements', async () => {
+                     //testing a post request
+    const response = await request(app)
+                        .post('/launch')
+                        .send(launchDataWithoutDate)
+                        .expect('Content-Type', /json/)
+                        .expect(400);
+
+    expect(response.body).toStrictEqual({
+            error: "Required parameters are missing!"
+        });
+
+   }
+);
+
+    
+
+    test('It should catch invalid dates', async () => {
+                         //testing a post request
+    const response = await request(app)
+                        .post('/launch')
+                        .send(launchDataInvalidDate)
+                        .expect('Content-Type', /json/)
+                        .expect(400);
+
+        expect(response.body).toStrictEqual({
+            error: "Date parameter is incorrect"
+        });
+    });
 })
