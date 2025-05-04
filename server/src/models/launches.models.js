@@ -7,7 +7,7 @@ const launch = {
   mission: 'Kepler Exploration X',
   rocket: 'Explorer IS1',
   launchDate: new Date('December 27, 2030'),
-  destination: 'Kepler-442 b',
+  target: 'Kepler-442 b',
   //We need a way of differentiating between upcoming and historical launches`  
   //successfull missions
   success: true,
@@ -16,6 +16,10 @@ const launch = {
 };
 
 launches.set(launch.flightNumber, launch);
+
+function existsLaunchWithId(launchId){
+    return launches.has(launchId);
+}
 
 function getAllLaunches(){
     return Array.from(launches.values())
@@ -33,7 +37,17 @@ function addNewLaunch(newLaunch){
     return launches;
 }
 
+function abortLaunchById(launchId){
+    const aborted = launches.get(launchId)
+    aborted.upcoming = false;
+    aborted.success = false;
+
+    return aborted;
+}
+
 module.exports = {
     getAllLaunches,
-    addNewLaunch
+    addNewLaunch,
+    abortLaunchById,
+    existsLaunchWithId
 };

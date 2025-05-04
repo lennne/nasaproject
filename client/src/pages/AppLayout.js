@@ -51,6 +51,8 @@ const AppLayout = props => {
   const onAbortSound = () => sounds.abort && sounds.abort.play();
   const onFailureSound = () => sounds.warning && sounds.warning.play();
 
+  console.log("use launches is approaching")
+
   const {
     launches,
     isPendingLaunch,
